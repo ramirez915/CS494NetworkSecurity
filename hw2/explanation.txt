@@ -1,0 +1,67 @@
+To get started, I parsed out the needed information from the shadow file
+placing only the hashes in a list. I then gathered the hashing functions
+I thought I was going to need: MD5,SHA1,SHA256,SHA384,SHA512. I then refreshed
+my knowledge on what hash functions return and the inputs of the functions.
+Then my initial plan to figure out the passwords was to hash all of the dictionary words
+alone and then also with the different combinations of numbers 0-9 for 5 spot
+at the end of each word in the dictionary. I then realized that that would be
+computationally expensive so I rethought this part of my plan. I then thought
+about hashing the word itself then with the salt in one function so that I get
+the word and then with the different salts all at once when I get the different
+words. I thought about getting the word with the salt in one vairable then
+hashing it using the different hashing methods and appending the results to a
+list pertaining to the type of hashing method. This was a great idea to me
+until I realized I did not have an idea how to get the different combinations
+of salt values. I tried nested loops but was not too sure how to continue.
+I then did research and found that using itertools.product will give me what I
+was looking for which was the different combinations of numbers for 5 spaces. I
+first tried a small length of 2 to get all the combinations (0,0) (0,1) and so on
+till (9,9). I knew that the amount of combinations I was supposed to get was
+going to be 100 for a length of 2 since we can have repeats in each space. The
+math is 10 * 10 and if I increased the number to 5 how we are supposed to have
+it, it would be 10*10*10*10*10 which is 100,000 different combinations. I ran
+the itertools.product(range(10),repeat = 5) and put the result in a list.
+From that list, I then parsed out the touples to get the values I needed and
+stored those values in a separate list which was going to be my list of salt
+values. I double checked that the length of the resulting list was indeed
+100,000 before continueing. This method was exactly what I needed and I did not
+have to do nested loops how I initially thought. It also resulted in the correct
+result unlike the combination and permutation function from the itertools library.
+Once I had the list of salt values, I wrote a function that would take in the current
+word from the dictionary and add the different salt values, hash it then
+adding the resulting hash into its corresponding list and end with adding the hashed
+word alone into the list. At this point I went back to see if I had the right hashing
+methods by checking the lengths of the given hashes. I ran the program with what I
+had, the parsing of the given hashes, the creation of the salt values, the adding
+of the salt values into the words and hashing it and placing into a list but ran into an issue,
+the script would get killed. It seemed that I was adding too many things into a list. I came up
+with another plan and ended up just collecting the salts values alone into their
+own list and then writing a function that will append the salt to the current word
+and then hash it with the corresponding hash method determined by the size of the target hash and then checking the
+target hash with the resulting hash and returning a touple of the word and the target
+if they matched. I put this together by itterating through the dictionary words for
+every hash given depending on the size of the current hash I am checking. I then thought
+of another way to make this quicker. I thought about just hashing the words from the dictionary alone to
+see how many passwords I coudld get. This helped me narrow down the ones that need the salt or the leet
+speak or the ceasar cipher. The order in how I got them did not matter since I had the shadow file that contained
+the target hashes and the particular users so all I had to do was match the passwords to the correct hash from the touple
+I was getting. I started with the leet speak since it seemed less computationally expensive. I was having trouble with the
+leet speak at first because I only took into considertion uppercase. I then started adding in the lowercase possibilities
+and found a password. I then moved on to the salt password since I was unsure how to take on the ceasar cipher at the time.
+To find the salt value one, I took my list of salt values and then appended it to every word in the dictionary and then hashed
+it using the right hash methods depending on the length of the target hash and then just compared it with the target hash. If a
+match was found, I would append the target hash with its password to my password list. This one was the heaviest in terms of
+computation so it did take a while but i was successfully able to find a password. For the Cipher
+password I tried by increasing each character in the word by 1 then by 2 then by 3 and so on for 26
+letters in the alphabet. I ran into the issue that the ascii value would give me nonesense if it was
+too high. I got the right idea but incorrect results. So I then thought of a way to loop back to the
+beginning of the alphabet if we were at the end. With this idea I wrote a function with a range loop up to 26
+to contain all the possible increments for the cipher. In this function I created a dicitonary with the letters in
+lowercase and their corresponding position in a list of the same letters. This function checked the letter of the
+word and if it was lowercase I would proceed normally by getting its position from the dictionary and then increasing
+it by the current number the loop was on and getting the new letter from the list to append to a new word that represented the original word but in cipher text.
+If the new position of the number was greater than 25 which represented z then I would loop back to a and go from there
+to get the new letter. I then did the same for uppercase letters but used the same lowercase dictionary and list. I
+converted the uppercase letter to lowercase and did the same process and at the end just converted the letter to
+uppercase. I the thought about adding in the possibility for numbers but I ran my program as is and got the last password
+I needed before starting the last part.

@@ -1,0 +1,43 @@
+To start off, I started by looking at the encrypted file to see for patterns. I did see some patterns but it was
+not enough to be able to decrypt it quickly. I then looked at the one letters and started thinking of the one
+lettered words in English and came up that there are only 3, a, I, and O. This information was not enough yet but was
+a start. So then I started thinking about looking at the most common letters in this file and then looking up the most
+frequent letters in the English language. To do this I thought about breaking this file up into a dictionary and
+counting the occurances of each letter to try to make sense out of the words. I found that E,A,R,I,O,T,N are the top 7
+most used letters in the English language in its words. So with this I then started thinking about how far apart
+the letters from the encrypted file are from these found values to start decrypting the file. I wanted to sort my
+counts from the dictionary but was unable to think of a way to do so quickly enough so I then thought about just
+analyzing the pairs manually (the pairs are the letter,count pair) with the help from the sorted values. The letter
+with the highest count I found to be c then n,s,d,z. I though this was sufficient to being able to find the correct
+mapping so I then starting looking for the difference from the E to C which turned out to be 24. I then verified with
+the other letters and found that this approach would not work as the distances between the letters are not all uniform
+
+a b c d e f g h i j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26
+
+I used this to help me visualize the positions of the letters.
+
+My next approach was to figure out how to sort the results in order from most frequent to least and I was able to get
+the pairs of letter and their counts and sort them into a list. Now with this I plan on making a dictionary where the key
+is the letter from the encrypted file and the value is the letter that will be mapped to it. To start off with this approach I
+took the most frequent letters in the English language and then once mapped to the letters from the encrytped file one by one I
+replaced the letter from the text to create a new text with these mapped values. I saw some words that made some sense after the
+first run. I also found some repetitions and replaced what was found in the text with the letter I wanted to subsitute it with.
+So for example I found the words "in mf" which I then quickly thought of "in my" so I subsititued the f with y in my letters list
+that was the common letters list in order from most common to least to map to another letter in order to get the result "in my". I
+then looked around the text to look for other patterns and I saw "in my btte" and I immediately thought of the movie "Toy Story"
+and thought of "theres a snake in my boot". So I changed the t with o and e with t to get "in my boot". I then started to analyze
+the rest of the text and was unable to make sense out of the current mapping. So I modified the o with e since ee is also common
+like oo in English words. With this I now got "in my beet" while having the first letter of the text being o. With this I now thought
+about testing out the results with the beginning one letter word being i and the "in my beet" became "on my beet". I spent time modifying
+the letters until I created more words that made more sense such as beet to feet. Eventually after changing my list a few times
+(not very drastically) I was able to construct a text that made sense. I found that the text is a short story about climbing. There were
+some words I was unsure about like miura and carabiner so I looked them up and found that that part of my decrypted text was correct! So
+now that I had a text file that made sense, I knew I had came up with the mapping so that I can cipher the dictionary words and look for
+the password. I found that the displacement between the letters is not uniform like the other caesar cipher password I cracked. So am going
+to have to create a custom mapping and map the dictionary words according to this mapping used to encrypt the file and then hash and compare
+instead of just adding the same displacement for all the letters in the word. This task does not seem hard as I already have the dictionary
+with the mapped letters. All would have to do now is map the dictionary words with this mapping and then hash and compare to the given hash.
+After tackling the last password with this method I overlooked the fact that the mpping that I had was from encrypted to decrypted. So what
+I had to do was reverse the dictionary so that the keys are the values and the values are the keys. This way I would be able to encrypt the
+word properly. By getting the new dictionary I was able to find that the password was leprechaun.
