@@ -1,0 +1,37 @@
+To begin this assignment, I broke it down into parts. I started by figuring out how to user commandline arguments in
+Python. I found that the use of argparse was the way to go. I played around with it and saw examples online on the
+Python.org page until I figured out how to parse out the arguments and set up defaults. I then refreshed my memory on what
+a DNS injection attack was and its key points. So I had to figure out how to get requests to certain hostnames and then
+redirect users to the certain IP addresses from the given file when the hostanmes argument was given. Or if no hostnames
+argument (a file name) is given I would have to send the response with the local machines IP address using the socket packet. For the
+interface argument I decided to set the default to lo (local host) if no interface is selected. I also played around with wireshark
+to see what information is passed around in dns packets and found that there exists a dns entry for a query with the
+domain name then there is another entry with the response as to what the ip address of the inquired domain name is. I then
+wrote code to parse out the hostname file given to us to use throughout the homework. To continue, I started looking into
+scapy and its DNS capabilities. I messed around with the sniff function with the filter and iface parameters to understand how
+it works. I then moved on to researching how to get packets and their queries to create a custom response. I used
+https://thepacketgeek.com/scapy-p-09-scapy-and-dns/ as a reference to see how they went about and created a custom response.
+I later seached for another resource, https://www.thepythoncode.com/article/sniff-http-packets-scapy-python, and read their code
+to understand how packets were gotten and read. From the later resource, I understood how to get a packet when running my program
+and then using dig. For example, I wrote a simple function that got the packet and then printed out the summary. I ran the program and
+then ran dig www.facebook.com and got 157.240.2.35. I copied and pasted this to FireFox and it directed me to facebook as intended.
+This was a good foundation of how packets are received and their information is extracted. I then looked further into the first
+example and got a better understanding of how they are distinguishing the question and answer packets. I used a similar idea
+to isolate the question packets to later check if they were in the hostnames dictionary, if they were in there, then I would
+do a simple .show() to see all of its info just to make sure I was looking for the right doamin name and changing it to the right
+IP address once I crafted my custom packet. All other packets were ignored as they are not the targeted hostnames. I then continued
+testing my code by running it and using dig with the hostnames we were given in the file using commands such as
+"dig ANY foo.example.com" and "dig ANY www.cs.uic.edu" and "dig www.cs.uic.edu @8.8.8.8". I then saw that the packets were succesfully
+modified on my programs terminal window by looking at the results from the .show() and .summary(). The only issue was them not showing up on
+wireshark. After analyzing the differences between the true packet and the modified packet, I noticed that I was not including an Ether()
+part of the packet and that my host name was wrong. I made these changes and ran it on the terminal to double check that it still worked as
+before but with the added changes. I then ran wireshark and used my wifi interface and then filtered the dns packets and then ran my script.
+On another terminal I had "dig www.cs.uic.edu @8.8.8.8" ready to go and ran that command and saw my custom packet with the spoofed IP show up
+first before the actual IP most of the times. Other times it would lose the race. I double checked the transaction ID on my modified response
+and it matched with the query and even the actual (real) response. To better the results I made my filter a little stronger by changing my
+original "udp port 53" to "udp dst port 53". Though a small change and not giving drastic results, my custom IP showed up more frequently
+than the actual one.
+
+Note, to run my program I would run
+"sudo python dnsinject.py -i wlp0s20f3 -h hostnames" where the interface I used was an interface I saw on wireshark that resulted in
+being for my local host.
