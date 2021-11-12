@@ -1,0 +1,81 @@
+Angel Ramirez
+
+To begin this assignment, I read up on what a proxy was to make sure I knew what
+the purpose of a proxy was before I could start coding. I then started seeing
+examples of socket programming in Python and tried one out on my own to see if I
+understood what was going on by setting up the proxy settings on Firefox and then
+running my program to then go to the provided link. I was able to get a simple print
+from the code that showed that the connection was successfully made. I made a small
+change and reran it but got an 'address already in use' error when rerunning my
+program after the first time so found the solution on stack overflow. I then
+continued by looking into how to get the data being requested and sent over through
+the socket. I found that after calling .recv() we can get access to the data being
+passed. After that I started looking through the data by printing it and checking
+for key words as mentioned on the handout. I saw things such as the Language,Cookie
+and URL.To continue, I then started looking into regular expressions to pick out at
+the data that we were asked to look for. To look for the patterns I decided that I
+am going to split up the GET requests by the \n character. I thought this was
+the right approach because I learned in 361 that the \r\n signifies the end
+of a line in the GET requests. To further test, I added more stuff at the end of
+the provided link. So for example I would go to
+http://34net9.cs.uic.edu/testpage.html/111-22-3333/na/4444-2222-3333-4444/5555-6666-7777-8888/(847)123-0987/847-123-0987/(847)-123-1234
+to test the SSN, credit card, and 3 different phone number patterns and was able to get
+that specific information written on to a file called by their respective names.
+
+The simple example that I used was inspired by
+https://realpython.com/python-sockets/
+
+The more complex example that I used was
+http://luugiathuy.com/2011/03/simple-web-proxy-python/
+
+and slowly I started adding my own style and morphing it to do what we were being asked
+too.
+
+https://null-byte.wonderhowto.com/how-to/sploit-make-proxy-server-python-0161232/
+
+this link helped make sure that I understood how to make a proxy server in python,
+it helped me see if I understood what was going on in a proxy server and also that
+I was taking the right steps when changing my settings on Firefox.
+
+The link I used to see how to write a regular expression to detect a credit card
+https://codereview.stackexchange.com/questions/169530/validating-credit-card-numbers
+
+I used this example then modified it a bit to get the general 4-4-4-4 pattern of
+a card. With this, I used the same idea to then write the regular expression
+to pick up SSNs which are in the pattern of 3-2-4.
+
+I made some modifications to my current ssn and card reg expressions because
+I thought about the possibility of there being more than one in the same line.
+So for this, after reading the re library documentation more in depth I found
+that I would want to use findall() to get more than one occurance. With this
+I had to group my whole original reg expressions so that the findall() would
+group the reg expression and find more similar to the pattern all grouped.
+
+the documentation I was looking at was
+https://www.tutorialspoint.com/regular-expression-in-python-with-examples
+and also this link to see another example
+https://www.w3schools.com/python/python_regex.asp
+
+Using the card pattern I deduced something for the phone numbers. I ended up
+having to use 3 different patterns for a phone number to be detected.I used a
+very similar pattern for the phone number as the card number except that I
+did not pair up the numbers together using the () like I did in the card and
+SSN patterns. Instead I just wrote out the whole pattern with only the characters
+needed and the \ as an escape character for the () for the pattern. I modified my
+write file a bit to check for a touple vs a regular list entry and was able to get
+all phone number types to be written on to the file for passive.
+
+I decided to add in a timestamp to the written file and the type of information
+that was detected and written on to the file to make it easier to look at in a
+way. I tought this add on would be something I would want if I were to use
+something like this to get information to find exactly what I'd be looking for
+a little quicker.
+
+At this point I only had the card, ssn, and phone number patterns detecting and writing it to a
+file successfully for passive mode. I attempted email next and had troubles as I
+could not think of a regular expression to represent the pattern for an email. I
+also had troubles figuring out the names because names can have many different
+patterns, ranging from 2-4+ names for one person and for addresses as there could
+be a wide variety of patterns too and I could not think of a way to set that up
+as a pattern at the moment. I was also unable to figure out active mode but left
+it as a stub.
