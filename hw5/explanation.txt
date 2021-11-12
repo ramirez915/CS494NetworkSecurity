@@ -1,0 +1,34 @@
+Angel Ramirez
+
+To begin this assignment I wrote basic functions to parse out the usernames.txt
+file into a dictionary that would store the total number of login attempts, return
+true when attempts are greater than 5, and then zero out the specific user once
+the number of attempted logins has reached more than 5. I then began looking into
+paramiko extensively after seeing the post on piazza  After in depth research I found
+how to get to the password entry for when the ssh command is run from another terminal (client).
+My biggest issue was not knowing how to set up a server with paramiko but after looking at the
+documentation along with a server example from
+https://github.com/paramiko/paramiko/blob/master/demos/demo_server.py, I was able to find out
+what was needed to get the the password prompt. From there I continued looking into finding
+out which user is attempting to be logged in as and found I had to overwrite the
+check_auth_password() from my implementation of the server. In there I placed my checks
+and returned auth_successful or auth_failed accordingly. I then found that a channel can
+have a timeout set as needed from the homework handout so I added that inside
+check_channel_shell_request() because after a few print statements and reading the
+documentation, I saw that it gets called when a connection was successful. I then communicated
+with the TA to clarify some things I did not understand and was able to advance upon a
+successful login allowing communication from the client to the server via the created channel.
+I then created my own shell like prompt as in the handout and then started testing out
+communication between the client and the server and saw that I was able to get the proper
+information being sent from the client to the server. After this I continued with writing
+funcitons that would handle the commands sent by the client. I started with the if elif
+conditions and then sending over the commands and printing out it the proper commands were
+triggered. I then continued by thinking how I would store the current data being used by the
+user. I decided to use a list that contained the string for the current state of the shell,
+a list of directories that have been created, the current level the user was in which represented
+the current directory level, and then the root directory string. I thought this data was important
+as it allowed to replicate a shell and was the best way I was able to think of at the moment.
+After this breakdown I finished writing the if elif statements so that it would be able to 
+handle commands ls, mkdir, and cd and also started to write an update function that would
+update the state of the user (the data structure I used to contain all the information for the
+current user). I tested it out and it seemed to look like what the handout showed.
